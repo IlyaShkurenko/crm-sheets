@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!--[if !mso]><!-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--<![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style type="text/css">
+        hr {
+            box-sizing: content-box;
+            height: 0;
+            overflow: visible;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            border: 0;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        h4 {
+            box-sizing: border-box;
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            line-height: 1.2;
+            font-size: 1.5rem;
+        }
+        h5 {
+            box-sizing: border-box;
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: 600;
+            line-height: 1.2;
+            font-size: 1.25rem;
+        }
+        h6 {
+            box-sizing: border-box;
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            line-height: 1.2;
+            font-size: 1rem;
+        }
+
+        table {
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        .text-muted {
+            color: #adb5bd;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        td,
+        th {
+            color: #244b5a;
+        }
+    </style>
+</head>
+
+<body>
+<table
+        align="center"
+        border="0"
+        cellpadding="0"
+        cellspacing="0"
+        style="
+        font-family: Arial, Helvetica, sans-serif;
+        mso-table-lspace: 0pt;
+        mso-table-rspace: 0pt;
+        border-spacing: 0px;
+        border-collapse: collapse;
+        max-width: 600px;
+        margin: 0 auto;
+      "
+        width="600"
+>
+    <tbody>
+    <tr>
+        <td
+                style="border-spacing: 0px; border-collapse: collapse; line-height: 24px; font-size: 16px; margin: 0"
+                align="left"
+        >
+
+            <p style="box-sizing: border-box; margin: 40px 0; color: #333333"><%= first_name %> <%= last_name %> заполнил(а) форму на <a href="<%= host_name %>" style="color: #244b5a; text-decoration: none">сайте.</a></p>
+            <table border="0" cellpadding="0" cellspacing="0" style="width: 100%">
+                <tr>
+                    <td style="width: 50%; padding-bottom: 10px;">
+                        <h6 class="text-muted" style="margin: 0">Эл. почта</h6>
+                    </td>
+                    <td style="width: 50%">
+                        <h6 class="text-muted" style="margin: 0"><%= email %></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 50%; padding-bottom: 10px;">
+                        <h6 class="text-muted" style="margin: 0">Телефон</h6>
+                    </td>
+                    <td style="width: 50%">
+                        <h6 class="text-muted" style="margin: 0"><%= phone %></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 50%; padding-bottom: 10px;">
+                        <h6 class="text-muted" style="margin: 0">Имя</h6>
+                    </td>
+                    <td style="width: 50%">
+                        <h6 class="text-muted" style="margin: 0"><%= first_name %></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 50%">
+                        <h6 class="text-muted" style="margin: 0">Фамилия</h6>
+                    </td>
+                    <td style="width: 50%">
+                        <h6 class="text-muted" style="margin: 0"><%= last_name %></h6>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
