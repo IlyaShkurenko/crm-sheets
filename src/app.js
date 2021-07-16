@@ -5,7 +5,6 @@ const cookieParser = require('cookie-parser');
 const formidable = require('express-formidable');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const index = require('./routes');
 const users = require('./routes/users');
 
 const app = express();
@@ -23,7 +22,9 @@ app.use(cookieParser());
 app.use(formidable())
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '/index.html'));
+});
 app.use('/users', users);
 
 // catch 404 and forward to error handler
