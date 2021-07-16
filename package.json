@@ -1,0 +1,25 @@
+{
+  "name": "fwi",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node src/app.js"
+  },
+  "dependencies": {
+    "body-parser": "~1.17.1",
+    "cookie-parser": "~1.4.3",
+    "cors": "^2.8.5",
+    "debug": "~2.6.3",
+    "ejs": "^3.1.6",
+    "email-templates": "^2.7.1",
+    "express": "~4.15.2",
+    "express-formidable": "^1.2.0",
+    "google-spreadsheet": "^3.1.15",
+    "morgan": "~1.8.1",
+    "node-libcurl": "^2.3.3",
+    "nodemailer": "^6.6.3",
+    "pug": "~2.0.0-beta11",
+    "request-promise": "^4.2.6",
+    "serve-favicon": "~2.4.2"
+  }
+}
