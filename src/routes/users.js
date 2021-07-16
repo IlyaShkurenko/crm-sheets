@@ -17,6 +17,7 @@ router.post('/', async function(req, res, next) {
     const sheet = doc.sheetsByTitle['Sheet1'];
     const data = req.fields;
     data.date = (new Date()).toLocaleDateString('eu-UA', { hour: '2-digit', hour12: false, minute:'2-digit'})
+    data.host = `${data.host_name}: ${data.host_ip}`
     await sheet.addRow(data);
     await sendNewUserMail(data);
   } catch (e) {
