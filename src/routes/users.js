@@ -1,15 +1,16 @@
 const express = require('express');
 const router = express.Router();
-// const request = require('request-promise');
+const request = require('request-promise');
 // const { curly } = require('node-libcurl')
 // const util = require('util');
 // const exec = require('child_process').exec;
+const generator = require('generate-password');
 const { sendNewUserMail } = require('../../lib/mailer')
 const { GoogleSpreadsheet } = require('google-spreadsheet');
 const creds = require('../../config/crm-sheets-320012-7312c54dfc2b.json'); // the file saved above
 const doc = new GoogleSpreadsheet('1uPjIpTMcof9VNTqEHPM0qL-1MHJ8Rbb7BTqHqFK5IhA');
 
-router.post('/', async function(req, res, next) {
+router.post('/accesgroupcapital', async function(req, res, next) {
   try {
     res.json('success')
     await doc.useServiceAccountAuth(creds);
@@ -17,11 +18,67 @@ router.post('/', async function(req, res, next) {
     const sheet = doc.sheetsByTitle['Sheet1'];
     const data = req.fields;
     data.date = (new Date()).toLocaleDateString('eu-UA', { hour: '2-digit', hour12: false, minute:'2-digit'})
-    data.host = `${data.host_name}: ${data.host_ip}`
+    data.host = `${data.host_name}: ${data.host_ip}`;
+    const { first_name, last_name, email, phone, country_code } = data
+    const authToken = 'CfDJ8BbNpBBjnIpEhwT-MXUBJDDxhupZ2rxXVSpN_Od7MFLehznVvB5O3AzIVqIbNnPavlL7W3MKrztPRS1pgzFEmtUllekP0cUJYGuqhcp0FR78bOoc53L81Z-iiAbhSDOIoaHfdkckqb85fX5_eP7xiaGuj5deZaEY_k2lIErd96tw1ClwPTzv8sT90xeKQfFVOZmKBal2YSh0DBi6Si4gkS9sUR_uf83ldNpkG5Z0H81R6fsP7jPnj5PJDwK1UogxO9wclt_buFgStlWTTsktIsyvo54T6WXkWEGiLev1beFJ6ZQaUuXzN8B9r4dkMTEgKpqklkuOrZaqOwZgQ2DvHTT5O7CUcWU6PUj_rSCCQeFn'
+    const options = {
+      url: `https://affiliate.accesgroupcapital.com/api/aff/leads`,
+      method: 'POST',
+      headers: {
+        'AuthToken': authToken,
+        'Content-Type': 'application/json',
+      },
+      body: {
+        Country: country_code,
+        Email: email,
+        FirstName: first_name,
+        LastName: last_name,
+        Phone: phone,
+        AffiliateId: 'Honey_RU',
+        OwnerId: 499
+      },
+    };
+    await request(options);
     await sheet.addRow(data);
     await sendNewUserMail(data);
   } catch (e) {
     console.log(e)
+    next(e)
+  }
+});
+
+router.post('/fwi', async function(req, res, next) {
+  try {
+    res.json('success');
+    const { host_ip, first_name, last_name, email, phone_number, host_name } = req.fields
+    const options = {
+      url: `https://platform.fwi-tracker.com/api/signup/procform`,
+      method: 'POST',
+      headers: {
+        'x-trackbox-username': 'Honey',
+        'x-trackbox-password': 'dv3Svuj83g',
+        'x-api-key': '2643889w34df345676ssdas323tgc738',
+        'Content-Type': 'application/json',
+      },
+      body: `{
+          "ai":"2958131",
+          "ci":"1",
+          "gi":"125",
+          "userip":"${host_ip}",
+          "firstname":"${first_name}",
+          "lastname":"${last_name}",
+          "email":"${email}",
+          "password":"${generator.generate({ length: 30 })}",
+          "phone":"${phone_number}",
+          "so":"${host_name}",
+          "sub":"FreeParam",
+          "MPC_1":"FreeParam"
+        }`,
+    };
+    const data = await request(options);
+    console.log(data);
+  } catch(e) {
+    console.log(e);
     next(e)
   }
 });

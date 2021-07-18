@@ -7,6 +7,7 @@ dependencies:
   email-templates: 2.7.1
   express: 4.15.5
   express-formidable: 1.2.0
+  generate-password: 1.6.0
   google-spreadsheet: 3.1.15
   morgan: 1.8.2
   node-libcurl: 2.3.3
@@ -930,6 +931,10 @@ packages:
       node: '>=10'
     resolution:
       integrity: sha512-L9XQUpvKJCM76YRSmcxrR4mFPzPGsgZUH+GgHMxAET8qc6+BhRJq63RLhWakgEO2KKVgeSDVfyiNjkGSADwNTA==
+  /generate-password/1.6.0:
+    dev: false
+    resolution:
+      integrity: sha512-YUJTQkApkLT/fru0QdYWP0lVZdPKhF5kXCP24sgI4gR/vFMJFopCj5t1+9FAKIYcML/nxzx2PMkA1ymO1FC+tQ==
   /get-intrinsic/1.1.1:
     dependencies:
       function-bind: 1.1.1
@@ -2475,6 +2480,7 @@ specifiers:
   email-templates: ^2.7.1
   express: ~4.15.2
   express-formidable: ^1.2.0
+  generate-password: ^1.6.0
   google-spreadsheet: ^3.1.15
   morgan: ~1.8.1
   node-libcurl: ^2.3.3
