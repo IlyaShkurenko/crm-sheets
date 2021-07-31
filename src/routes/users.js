@@ -9,6 +9,7 @@ const { sendNewUserMail } = require('../../lib/mailer')
 const { GoogleSpreadsheet } = require('google-spreadsheet');
 const creds = require('../../config/crm-sheets-320012-7312c54dfc2b.json'); // the file saved above
 const doc = new GoogleSpreadsheet('1uPjIpTMcof9VNTqEHPM0qL-1MHJ8Rbb7BTqHqFK5IhA');
+const { anthems, countries, languages } = require('countries-languages');
 const CountryLanguage = require('country-language');
 
 router.post('/leadfx', async function(req, res, next) {
@@ -23,10 +24,14 @@ router.post('/leadfx', async function(req, res, next) {
       password,
       host_ip,
       host_name,
-      language,
       currency
     } = data
-    const country = CountryLanguage.getCountry(country_code);
+    const country1 = countries[country_code];
+    const country2 = CountryLanguage.getCountry(country_code);
+    const language = (country2 && country2.languages && country2.languages[0] && country2.languages[0]['iso639_1']) || 'en'
+    const langCurrency = Object.keys(country1.currency)[0];
+    console.log(language)
+    console.log(langCurrency)
     const options = {
       url: `https://partner.crystal-inv.online/clients`,
       method: 'POST',
@@ -42,8 +47,8 @@ router.post('/leadfx', async function(req, res, next) {
         lastName: last_name,
         phone: phone,
         password,
-        language: country && country.languages && country.languages[0] && country.languages[0]['iso639_1'],
-        currency,
+        language,
+        currency: langCurrency || currency || 'USD',
         ip: host_ip,
         source: host_name
       }),
@@ -67,37 +72,38 @@ router.post('/accesgroupcapital', async function(req, res, next) {
     data.date = (new Date()).toLocaleDateString('eu-UA', { hour: '2-digit', hour12: false, minute:'2-digit'})
     data.host = `${data.host_name}: ${data.host_ip}`;
     const { first_name, last_name, email, phone, country_code } = data
-    const tokenData = await request({
-      url: 'https://affiliate.accesgroupcapital.com/api/affiliate/generateauthtoken',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userName: "Honey_RU",
-        password: "ho2020"
-      })
-    });
-    const authToken = JSON.parse(tokenData).token;
-    const options = {
-      url: `https://affiliate.accesgroupcapital.com/api/aff/leads`,
-      method: 'POST',
-      headers: {
-        'AuthToken': authToken,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        Country: country_code,
-        Email: email,
-        FirstName: first_name,
-        LastName: last_name,
-        Phone: phone,
-        AffiliateId: 'Honey_RU',
-        OwnerId: 499
-      }),
-    };
+    // const tokenData = await request({
+    //   url: 'https://affiliate.accesgroupcapital.com/api/affiliate/generateauthtoken',
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({
+    //     userName: "Honey_RU",
+    //     password: "ho2020"
+    //   })
+    // });
+    // const authToken = JSON.parse(tokenData).token;
+    // const options = {
+    //   url: `https://affiliate.accesgroupcapital.com/api/aff/leads`,
+    //   method: 'POST',
+    //   headers: {
+    //     'AuthToken': authToken,
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({
+    //     Country: country_code,
+    //     Email: email,
+    //     FirstName: first_name,
+    //     LastName: last_name,
+    //     Phone: phone,
+    //     AffiliateId: 'Honey_RU',
+    //     OwnerId: 499
+    //   }),
+    // };
     // const reqData = await request(options);
     // console.log(reqData)
+    // console.log(options)
     await sheet.addRow(data);
     await sendNewUserMail(data);
   } catch (e) {
