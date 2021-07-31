@@ -11,6 +11,7 @@ const creds = require('../../config/crm-sheets-320012-7312c54dfc2b.json'); // th
 const doc = new GoogleSpreadsheet('1uPjIpTMcof9VNTqEHPM0qL-1MHJ8Rbb7BTqHqFK5IhA');
 const { anthems, countries, languages } = require('countries-languages');
 const CountryLanguage = require('country-language');
+const HttpsProxyAgent = require('https-proxy-agent');
 //52.51.148.88, 52.208.145.228]
 router.post('/leadfx', async function(req, res, next) {
   try {
@@ -32,10 +33,12 @@ router.post('/leadfx', async function(req, res, next) {
     const langCurrency = Object.keys(country1.currency)[0];
     console.log(language)
     console.log(langCurrency)
+    const proxy = process.env.QUOTAGUARDSHIELD_URL;
+    const agent = new HttpsProxyAgent(proxy);
     const options = {
       url: `https://partner.crystal-inv.online/clients`,
       method: 'POST',
-      proxy: process.env.QUOTAGUARDSHIELD_URL,
+      agent,
       headers: {
         'User-Agent': 'node.js',
         'Content-Type': 'application/json',
