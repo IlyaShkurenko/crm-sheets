@@ -5,9 +5,9 @@
   "scripts": {
     "start": "node src/app.js"
   },
-  "engines": {
-    "node": "15.x"
-  },
+//  "engines": {
+//    "node": "15.x"
+//  },
   "dependencies": {
     "body-parser": "~1.17.1",
     "cookie-parser": "~1.4.3",
