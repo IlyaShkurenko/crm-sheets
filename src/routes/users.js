@@ -11,7 +11,7 @@ const creds = require('../../config/crm-sheets-320012-7312c54dfc2b.json'); // th
 const doc = new GoogleSpreadsheet('1uPjIpTMcof9VNTqEHPM0qL-1MHJ8Rbb7BTqHqFK5IhA');
 const { anthems, countries, languages } = require('countries-languages');
 const CountryLanguage = require('country-language');
-
+//52.51.148.88, 52.208.145.228]
 router.post('/leadfx', async function(req, res, next) {
   try {
     res.json('success')
@@ -35,7 +35,9 @@ router.post('/leadfx', async function(req, res, next) {
     const options = {
       url: `https://partner.crystal-inv.online/clients`,
       method: 'POST',
+      proxy: process.env.QUOTAGUARDSHIELD_URL,
       headers: {
+        'User-Agent': 'node.js',
         'Content-Type': 'application/json',
         login: "leadfx_ru_eu@gmail.com",
         password: "A1#0.onzidbee49"
