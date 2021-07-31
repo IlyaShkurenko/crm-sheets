@@ -9,6 +9,53 @@ const { sendNewUserMail } = require('../../lib/mailer')
 const { GoogleSpreadsheet } = require('google-spreadsheet');
 const creds = require('../../config/crm-sheets-320012-7312c54dfc2b.json'); // the file saved above
 const doc = new GoogleSpreadsheet('1uPjIpTMcof9VNTqEHPM0qL-1MHJ8Rbb7BTqHqFK5IhA');
+const CountryLanguage = require('country-language');
+
+router.post('/leadfx', async function(req, res, next) {
+  try {
+    res.json('success')
+    const data = req.fields;
+    const { first_name,
+      last_name,
+      email,
+      phone,
+      country_code,
+      password,
+      host_ip,
+      host_name,
+      language,
+      currency
+    } = data
+    const country = CountryLanguage.getCountry(country_code);
+    const options = {
+      url: `https://partner.crystal-inv.online/clients`,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        login: "leadfx_ru_eu@gmail.com",
+        password: "A1#0.onzidbee49"
+      },
+      body: JSON.stringify({
+        country: country_code,
+        email: email,
+        firstName: first_name,
+        lastName: last_name,
+        phone: phone,
+        password,
+        language: country && country.languages && country.languages[0] && country.languages[0]['iso639_1'],
+        currency,
+        ip: host_ip,
+        source: host_name
+      }),
+    };
+    const reqData = await request(options);
+    console.log(reqData)
+  } catch (e) {
+    console.log(e)
+    next(e)
+  }
+});
+
 
 router.post('/accesgroupcapital', async function(req, res, next) {
   try {
@@ -20,7 +67,18 @@ router.post('/accesgroupcapital', async function(req, res, next) {
     data.date = (new Date()).toLocaleDateString('eu-UA', { hour: '2-digit', hour12: false, minute:'2-digit'})
     data.host = `${data.host_name}: ${data.host_ip}`;
     const { first_name, last_name, email, phone, country_code } = data
-    const authToken = 'CfDJ8BbNpBBjnIpEhwT-MXUBJDDxhupZ2rxXVSpN_Od7MFLehznVvB5O3AzIVqIbNnPavlL7W3MKrztPRS1pgzFEmtUllekP0cUJYGuqhcp0FR78bOoc53L81Z-iiAbhSDOIoaHfdkckqb85fX5_eP7xiaGuj5deZaEY_k2lIErd96tw1ClwPTzv8sT90xeKQfFVOZmKBal2YSh0DBi6Si4gkS9sUR_uf83ldNpkG5Z0H81R6fsP7jPnj5PJDwK1UogxO9wclt_buFgStlWTTsktIsyvo54T6WXkWEGiLev1beFJ6ZQaUuXzN8B9r4dkMTEgKpqklkuOrZaqOwZgQ2DvHTT5O7CUcWU6PUj_rSCCQeFn'
+    const tokenData = await request({
+      url: 'https://affiliate.accesgroupcapital.com/api/affiliate/generateauthtoken',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userName: "Honey_RU",
+        password: "ho2020"
+      })
+    });
+    const authToken = JSON.parse(tokenData).token;
     const options = {
       url: `https://affiliate.accesgroupcapital.com/api/aff/leads`,
       method: 'POST',
@@ -28,7 +86,7 @@ router.post('/accesgroupcapital', async function(req, res, next) {
         'AuthToken': authToken,
         'Content-Type': 'application/json',
       },
-      body: {
+      body: JSON.stringify({
         Country: country_code,
         Email: email,
         FirstName: first_name,
@@ -36,9 +94,10 @@ router.post('/accesgroupcapital', async function(req, res, next) {
         Phone: phone,
         AffiliateId: 'Honey_RU',
         OwnerId: 499
-      },
+      }),
     };
-    await request(options);
+    // const reqData = await request(options);
+    // console.log(reqData)
     await sheet.addRow(data);
     await sendNewUserMail(data);
   } catch (e) {
@@ -79,6 +138,16 @@ router.post('/fwi', async function(req, res, next) {
     console.log(data);
   } catch(e) {
     console.log(e);
+    next(e)
+  }
+});
+
+router.post('/ping', async function(req, res, next) {
+  try {
+    console.log('ping sever')
+    res.json('success')
+  } catch (e) {
+    console.log(e)
     next(e)
   }
 });
