@@ -38,9 +38,9 @@ router.post('/leadfx', async function(req, res, next) {
     const options = {
       url: `https://partner.crystal-inv.online/clients`,
       method: 'POST',
-      agent,
+  //    agent,
       headers: {
-        'User-Agent': 'node.js',
+  //      'User-Agent': 'node.js',
         'Content-Type': 'application/json',
         login: "leadfx_ru_eu@gmail.com",
         password: "A1#0.onzidbee49"
