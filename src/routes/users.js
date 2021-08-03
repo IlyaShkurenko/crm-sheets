@@ -33,8 +33,8 @@ router.post('/leadfx', async function(req, res, next) {
     const langCurrency = Object.keys(country1.currency)[0];
     console.log(language)
     console.log(langCurrency)
-    const proxy = process.env.QUOTAGUARDSHIELD_URL;
-    const agent = new HttpsProxyAgent(proxy);
+    // const proxy = process.env.QUOTAGUARDSHIELD_URL;
+    // const agent = new HttpsProxyAgent(proxy);
     const options = {
       url: `https://partner.crystal-inv.online/clients`,
       method: 'POST',
