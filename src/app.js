@@ -44,20 +44,19 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
 });
 
-// const port = process.env.PORT || 3000;
-//
-// app.listen(port, () => {
-//   console.log(`Running on port: ${port}`);
-// });
+const port = process.env.PORT || 3000;
 
-const port = process.env.PORT ||  3000;
-const host = process.env.HOST || '0.0.0.0'; // 'localhost';
-// app.listen(port, 'ec2-3-82-214-166.compute-1.amazonaws.com');
-if ([80, 442].includes(parseInt(port))) {
-  app.set('trust proxy', 1);
-}
-app.listen(port, host, () => {
-  console.log(`Running on http://${host}:${port}`);
+app.listen(port, () => {
+  console.log(`Running on port: ${port}`);
 });
+
+// const port = process.env.PORT ||  3000;
+// const host = process.env.HOST || '0.0.0.0'; // 'localhost';
+// if ([80, 442].includes(parseInt(port))) {
+//   app.set('trust proxy', 1);
+// }
+// app.listen(port, host, () => {
+//   console.log(`Running on http://${host}:${port}`);
+// });
 
 module.exports = app;
