@@ -1,0 +1,36 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 12
+    commands:
+      # Install dependencies needed for running tests
+      - rm -rf node_modules
+      - npm cache clean --force
+      - npm install
+      # npm run db:migrate
+  # Upgrade AWS CLI to the latest version
+  # pip install --upgrade awscli
+  pre_build:
+    commands:
+    # Discover and run unit tests in the 'tests' directory
+    # npm run test
+  post_build:
+    commands:
+      # Remove existing node_modules to clear dev dependencies
+      - rm -r node_modules
+      - npm cache clean --force
+      # Install runtime dependencies
+      - npm install --production
+artifacts:
+  type: zip
+  files:
+    - .ebextensions/*
+    - package.json
+    - package-lock.json
+    - config/*
+    - node_modules/**/*
+    - lib/**/*
+    - src/**/*
+    - .npmrc

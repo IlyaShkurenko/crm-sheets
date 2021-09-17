@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "local": "cross-env NODE_ENV=dev nodemon -V src/app.js --max_old_space_size=2048",
     "start": "node src/app.js"
   },
   "dependencies": {
@@ -12,6 +13,7 @@
     "countries-languages": "^1.0.3",
     "country-language": "^0.1.7",
     "debug": "~2.6.3",
+    "dotenv": "^10.0.0",
     "ejs": "^3.1.6",
     "email-templates": "^2.7.1",
     "express": "~4.15.2",
@@ -19,9 +21,11 @@
     "generate-password": "^1.6.1",
     "google-spreadsheet": "^3.1.15",
     "https-proxy-agent": "^5.0.0",
+    "mongoose": "^5.13.5",
     "morgan": "~1.8.1",
     "node-libcurl": "^2.3.3",
     "nodemailer": "^6.6.3",
+    "nodemon": "^2.0.12",
     "pug": "~2.0.0-beta11",
     "request-promise": "^4.2.6",
     "serve-favicon": "~2.4.2"
